@@ -17,7 +17,7 @@ namespace Practice
     public partial class Admin : System.Web.UI.Page
     {
 
-        int k=1;
+        
          String que;
         SqlDataReader rd;
         SqlConnection con;
@@ -116,7 +116,7 @@ namespace Practice
             
             rd.Close();
             con.Close();
-            
+            searchBox.Text="";
         }
 
         protected void previousButton_Click(object sender, EventArgs e)
@@ -251,7 +251,7 @@ namespace Practice
 
             con.Open();
 
-            if (k==1)
+            if (Label1.Visible==true&& Label2.Visible == false)
             {
                 cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1";
                 cmd.Parameters.AddWithValue("@label1", filterSearchBox1.Text);
@@ -277,9 +277,9 @@ namespace Practice
                 con.Close();
             }
 
-            if (k==2)
+            if (Label1.Visible == true && Label2.Visible == true && Label3.Visible == false)
             {
-                cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1 OR "+Label2.Text.ToString() 
+                cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1 AND "+Label2.Text.ToString() 
                     + "=@label2";
                 cmd.Parameters.AddWithValue("@label1", filterSearchBox1.Text);
                 cmd.Parameters.AddWithValue("@label2", filterSearchBox2.Text);
@@ -301,10 +301,10 @@ namespace Practice
                 rd.Close();
                 con.Close();
             }
-            if (k ==3)
+            if (Label1.Visible == true && Label2.Visible == true && Label3.Visible == true && Label4.Visible == false)
             {
-                cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1 OR " 
-                    + Label2.Text.ToString() + "=@label2 OR " 
+                cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1 AND " 
+                    + Label2.Text.ToString() + "=@label2 AND " 
                     + Label3.Text.ToString() + "=@Label3";
                 cmd.Parameters.AddWithValue("@label1", filterSearchBox1.Text);
                 cmd.Parameters.AddWithValue("@label2", filterSearchBox2.Text);
@@ -327,11 +327,11 @@ namespace Practice
                 rd.Close();
                 con.Close();
             }
-            if (k ==4)
+            if (Label1.Visible == true && Label2.Visible == true && Label3.Visible == true && Label4.Visible == true)
             {
-                cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1 OR " 
-                    + Label2.Text.ToString() + "=@label2 OR "
-                    + Label3.Text.ToString() + "=@Label3 OR " 
+                cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1 AND " 
+                    + Label2.Text.ToString() + "=@label2 AND "
+                    + Label3.Text.ToString() + "=@Label3 AND " 
                     + Label4.Text.ToString() + "=@Label4";
                 cmd.Parameters.AddWithValue("@label1", filterSearchBox1.Text);
                 cmd.Parameters.AddWithValue("@label2", filterSearchBox2.Text);
@@ -355,7 +355,10 @@ namespace Practice
                 rd.Close();
                 con.Close();
             }
-
+            filterSearchBox1.Text = "";
+            filterSearchBox2.Text = "";
+            filterSearchBox3.Text = "";
+            filterSearchBox4.Text = "";
 
 
             con.Close();
@@ -368,7 +371,7 @@ namespace Practice
             resultsBox.Items.Clear();
             emp.Clear();
             urls.Clear();
-            k = 1;
+            
 
 
             panel.Visible = true;
@@ -387,25 +390,25 @@ namespace Practice
         protected void addButton_Click(object sender, EventArgs e)
         {
 
-            if (k == 2)
+            if (Label1.Visible == true && Label2.Visible == true && Label3.Visible == true && Label4.Visible==false)
+            {
+                Label4.Visible = true;
+                filterSearchBox4.Visible = true;
+                
+
+            }
+            if (Label1.Visible == true && Label2.Visible==true&& Label3.Visible == false)
             {
                 Label3.Visible = true;
                 filterSearchBox3.Visible = true;
-                k = k + 1;
+                
 
             }
-            if (k == 1)
-            {
-                Label3.Visible = true;
-                filterSearchBox3.Visible = true;
-                k = k + 1;
-
-            }
-            if (k==0)
+            if (Label1.Visible==true&&Label2.Visible==false)
             {
                 Label2.Visible = true;
                 filterSearchBox2.Visible = true;
-                k = k + 1;
+                
 
             }
             
