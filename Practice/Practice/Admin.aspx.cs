@@ -12,6 +12,8 @@ using System.Drawing;
 using System.Collections;
 using System.Text;
 
+
+
 namespace Practice
 {
     public partial class Admin : System.Web.UI.Page
@@ -22,8 +24,11 @@ namespace Practice
         SqlDataReader rd;
         SqlConnection con;
         SqlCommand cmd;
-       List<employee> emp = new List<employee>();
-       List<String> urls = new List<String>();
+        
+       List<Employee> emp = new List<Employee>();
+        
+
+        List<String> urls = new List<String>();
         protected void Page_Load(object sender, EventArgs e)
         {
             if(Session["AdminID"] == null)
@@ -103,17 +108,26 @@ namespace Practice
             rd = cmd.ExecuteReader();
             while (rd.Read())
             {
+                var empl = new Employee(); 
                 username = rd["username"].ToString();
                 fname = rd["fname"].ToString();
                 lname = rd["lname"].ToString();
                 address = rd["address"].ToString();
                 position = rd["position"].ToString();
 
-                emp.Add(new employee(username, fname, lname, address, position));
+                empl.setun(username);
+                empl.setfn(fname);
+                empl.setln(lname);
+                empl.setad(address);
+                empl.setpo(position);
+
+                emp.Add(empl);
+                
 
                 resultsBox.Items.Add(fname + "    " + lname + "    " + address + "    " + position + "    ");
+                
             }
-            
+            Session["employees"] = emp;
             rd.Close();
             con.Close();
             searchBox.Text="";
@@ -178,44 +192,30 @@ namespace Practice
             String strDelimiter =",";
             String cs = ConfigurationManager.ConnectionStrings["PracticeConnectionString"].ConnectionString;
             StringBuilder sb = new StringBuilder();
+
             
 
-            conn.Open();
-            String query = "SELECT * FROM staff";
 
-            SqlDataAdapter da = new SqlDataAdapter(query,conn);
-
-            DataTable dt = new DataTable();
-            
             
 
-            da.Fill(dt);
-            
+            emp = Session["employees"] as List<Employee>;
+            foreach (Employee epl in emp)
+            {
+                sb.Append(epl.getfn() + strDelimiter);
+                sb.Append(epl.getln() + strDelimiter);
+                sb.Append(epl.getad() + strDelimiter);
+                sb.Append(epl.getpo() + strDelimiter);
+                sb.Append("\r\n");
+            }
 
-            foreach (DataRow staffDR in dt.Rows)
-                {
-                    sb.Append(staffDR["fname"].ToString() + strDelimiter);
-                    sb.Append(staffDR["lname"].ToString() + strDelimiter);
-                    sb.Append(staffDR["address"].ToString() + strDelimiter);
-                    sb.Append(staffDR["position"].ToString());
-                    sb.Append("\r\n");
-
-
-                }
-
-                conn.Close();
-            
-            
-
-           
 
             Console.Clear();
-            StreamWriter file = new StreamWriter(@"C:\Users\Owner\Desktop\expo\Data.csv");
-            file.WriteLine(sb.ToString());
-            file.Close();
+                StreamWriter file = new StreamWriter(@"C:\Users\Owner\Desktop\Data.csv");
+                file.WriteLine(sb.ToString());
+                file.Close();
 
             String FileName = "Data.csv";
-            String FilePath = "C:/Users/Owner/Desktop/expo/Data.csv"; //Replace this
+            String FilePath = "C:/Users/Owner/Desktop/Data.csv";
             System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
             response.ClearContent();
             response.Clear();
@@ -224,6 +224,8 @@ namespace Practice
             response.TransmitFile(FilePath);
             response.Flush();
             response.End();
+
+
 
         }
 
@@ -251,128 +253,175 @@ namespace Practice
 
             con.Open();
 
-            if (Label1.Visible==true&& Label2.Visible == false)
+            if (Label1.Visible == true && Label2.Visible == false)
             {
                 cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1";
                 cmd.Parameters.AddWithValue("@label1", filterSearchBox1.Text);
-                
+
                 rd = cmd.ExecuteReader();
                 while (rd.Read())
                 {
+                    var empl = new Employee();
                     username = rd["username"].ToString();
                     fname = rd["fname"].ToString();
                     lname = rd["lname"].ToString();
                     address = rd["address"].ToString();
                     position = rd["position"].ToString();
 
-                    
+                    empl.setun(username);
+                    empl.setfn(fname);
+                    empl.setln(lname);
+                    empl.setad(address);
+                    empl.setpo(position);
 
+                    emp.Add(empl);
 
-                    emp.Add(new employee(username, fname, lname, address, position));
 
                     resultsBox.Items.Add(fname + "    " + lname + "    " + address + "    " + position + "    ");
+
                 }
-                que = cmd.CommandText;
+                Session["employees"] = emp;
                 rd.Close();
                 con.Close();
             }
 
-            if (Label1.Visible == true && Label2.Visible == true && Label3.Visible == false)
-            {
-                cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1 AND "+Label2.Text.ToString() 
-                    + "=@label2";
-                cmd.Parameters.AddWithValue("@label1", filterSearchBox1.Text);
-                cmd.Parameters.AddWithValue("@label2", filterSearchBox2.Text);
-                
-                rd = cmd.ExecuteReader();
-                while (rd.Read())
+
+            
+            
+                if (Label1.Visible == true && Label2.Visible == true && Label3.Visible == false)
                 {
+                    cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1 AND " + Label2.Text.ToString()
+                        + "=@label2";
+                    cmd.Parameters.AddWithValue("@label1", filterSearchBox1.Text);
+                    cmd.Parameters.AddWithValue("@label2", filterSearchBox2.Text);
+
+                    rd = cmd.ExecuteReader();
+                    while (rd.Read())
+                    {
+                    var empl = new Employee();
                     username = rd["username"].ToString();
                     fname = rd["fname"].ToString();
                     lname = rd["lname"].ToString();
                     address = rd["address"].ToString();
                     position = rd["position"].ToString();
 
-                    emp.Add(new employee(username, fname, lname, address, position));
+                    empl.setun(username);
+                    empl.setfn(fname);
+                    empl.setln(lname);
+                    empl.setad(address);
+                    empl.setpo(position);
+
+                    emp.Add(empl);
+
 
                     resultsBox.Items.Add(fname + "    " + lname + "    " + address + "    " + position + "    ");
+
                 }
-                que = cmd.CommandText;
+                Session["employees"] = emp;
                 rd.Close();
-                con.Close();
-            }
-            if (Label1.Visible == true && Label2.Visible == true && Label3.Visible == true && Label4.Visible == false)
-            {
-                cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1 AND " 
-                    + Label2.Text.ToString() + "=@label2 AND " 
-                    + Label3.Text.ToString() + "=@Label3";
-                cmd.Parameters.AddWithValue("@label1", filterSearchBox1.Text);
-                cmd.Parameters.AddWithValue("@label2", filterSearchBox2.Text);
-                cmd.Parameters.AddWithValue("@label3", filterSearchBox3.Text);
-                
-                rd = cmd.ExecuteReader();
-                while (rd.Read())
+                    con.Close();
+                }
+            
+
+
+           
+            
+                if (Label1.Visible == true && Label2.Visible == true && Label3.Visible == true && Label4.Visible == false)
                 {
+                    cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1 AND "
+                        + Label2.Text.ToString() + "=@label2 AND "
+                        + Label3.Text.ToString() + "=@Label3";
+                    cmd.Parameters.AddWithValue("@label1", filterSearchBox1.Text);
+                    cmd.Parameters.AddWithValue("@label2", filterSearchBox2.Text);
+                    cmd.Parameters.AddWithValue("@label3", filterSearchBox3.Text);
+
+                    rd = cmd.ExecuteReader();
+                    while (rd.Read())
+                    {
+                    var empl = new Employee();
                     username = rd["username"].ToString();
                     fname = rd["fname"].ToString();
                     lname = rd["lname"].ToString();
                     address = rd["address"].ToString();
                     position = rd["position"].ToString();
 
-                    emp.Add(new employee(username, fname, lname, address, position));
+                    empl.setun(username);
+                    empl.setfn(fname);
+                    empl.setln(lname);
+                    empl.setad(address);
+                    empl.setpo(position);
+
+                    emp.Add(empl);
+
 
                     resultsBox.Items.Add(fname + "    " + lname + "    " + address + "    " + position + "    ");
+
                 }
-                que = cmd.CommandText;
+                Session["employees"] = emp;
                 rd.Close();
-                con.Close();
-            }
-            if (Label1.Visible == true && Label2.Visible == true && Label3.Visible == true && Label4.Visible == true)
-            {
-                cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1 AND " 
-                    + Label2.Text.ToString() + "=@label2 AND "
-                    + Label3.Text.ToString() + "=@Label3 AND " 
-                    + Label4.Text.ToString() + "=@Label4";
-                cmd.Parameters.AddWithValue("@label1", filterSearchBox1.Text);
-                cmd.Parameters.AddWithValue("@label2", filterSearchBox2.Text);
-                cmd.Parameters.AddWithValue("@label3", filterSearchBox3.Text);
-                cmd.Parameters.AddWithValue("@label4", filterSearchBox4.Text);
-               
-                rd = cmd.ExecuteReader();
-                while (rd.Read())
+                    con.Close();
+                }
+            
+
+            
+            
+                if (Label1.Visible == true && Label2.Visible == true && Label3.Visible == true && Label4.Visible == true)
                 {
+                    cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1 AND "
+                        + Label2.Text.ToString() + "=@label2 AND "
+                        + Label3.Text.ToString() + "=@Label3 AND "
+                        + Label4.Text.ToString() + "=@Label4";
+                    cmd.Parameters.AddWithValue("@label1", filterSearchBox1.Text);
+                    cmd.Parameters.AddWithValue("@label2", filterSearchBox2.Text);
+                    cmd.Parameters.AddWithValue("@label3", filterSearchBox3.Text);
+                    cmd.Parameters.AddWithValue("@label4", filterSearchBox4.Text);
+
+                    rd = cmd.ExecuteReader();
+                    while (rd.Read())
+                    {
+                    var empl = new Employee();
                     username = rd["username"].ToString();
                     fname = rd["fname"].ToString();
                     lname = rd["lname"].ToString();
                     address = rd["address"].ToString();
                     position = rd["position"].ToString();
 
-                    emp.Add(new employee(username, fname, lname, address, position));
+                    empl.setun(username);
+                    empl.setfn(fname);
+                    empl.setln(lname);
+                    empl.setad(address);
+                    empl.setpo(position);
+
+                    emp.Add(empl);
+
 
                     resultsBox.Items.Add(fname + "    " + lname + "    " + address + "    " + position + "    ");
+
                 }
-                que = cmd.CommandText;
+                Session["employees"] = emp;
                 rd.Close();
+                    con.Close();
+                }
+                filterSearchBox1.Text = "";
+                filterSearchBox2.Text = "";
+                filterSearchBox3.Text = "";
+                filterSearchBox4.Text = "";
+
+
                 con.Close();
+
+                panel.Visible = false;
             }
-            filterSearchBox1.Text = "";
-            filterSearchBox2.Text = "";
-            filterSearchBox3.Text = "";
-            filterSearchBox4.Text = "";
-
-
-            con.Close();
-
-            panel.Visible = false;
-        }
+        
 
         protected void filterButton_Click(object sender, EventArgs e)
         {
+            
             resultsBox.Items.Clear();
             emp.Clear();
             urls.Clear();
-            
 
+             
 
             panel.Visible = true;
 
