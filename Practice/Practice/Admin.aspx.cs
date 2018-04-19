@@ -35,7 +35,9 @@ namespace Practice
             {
                 Response.Redirect("default.aspx");
             }
-           
+
+            
+
         }
 
         
@@ -43,8 +45,11 @@ namespace Practice
 
         protected void resultsBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            emp = Session["employees"] as List<Employee>;
+            ListItem curItem = resultsBox.SelectedItem;
+            int current= resultsBox.Items.IndexOf(curItem);
 
-            int current = resultsBox.SelectedIndex;
+           
             String un = emp[current].getun();
             String url;
 
@@ -69,9 +74,9 @@ namespace Practice
             }
             rd.Close();
             con.Close();
-            imageBox.ImageUrl=urls[0];
+            imageBox.ImageUrl = urls[0];
             imageBox.Visible = true;
-            
+            Session["pics"] = urls;
 
         }
 
@@ -135,7 +140,7 @@ namespace Practice
 
         protected void previousButton_Click(object sender, EventArgs e)
         {
-            
+            urls = Session["pictures"] as List<String>;
             int u =urls.Count();
             int p=0;
             String s = imageBox.ImageUrl;
@@ -159,6 +164,7 @@ namespace Practice
 
         protected void nextButton_Click(object sender, EventArgs e)
         {
+            urls = Session["pictures"] as List<String>;
             int u = urls.Count();
             int p = 0;
             String s = imageBox.ImageUrl;
@@ -193,39 +199,41 @@ namespace Practice
             String cs = ConfigurationManager.ConnectionStrings["PracticeConnectionString"].ConnectionString;
             StringBuilder sb = new StringBuilder();
 
-            
 
 
-            
-
-            emp = Session["employees"] as List<Employee>;
-            foreach (Employee epl in emp)
+            if (emp != null)
             {
-                sb.Append(epl.getfn() + strDelimiter);
-                sb.Append(epl.getln() + strDelimiter);
-                sb.Append(epl.getad() + strDelimiter);
-                sb.Append(epl.getpo() + strDelimiter);
-                sb.Append("\r\n");
-            }
 
 
-            Console.Clear();
+                emp = Session["employees"] as List<Employee>;
+                foreach (Employee epl in emp)
+                {
+                    sb.Append(epl.getfn() + strDelimiter);
+                    sb.Append(epl.getln() + strDelimiter);
+                    sb.Append(epl.getad() + strDelimiter);
+                    sb.Append(epl.getpo() + strDelimiter);
+                    sb.Append("\r\n");
+                }
+
+
+                Console.Clear();
                 StreamWriter file = new StreamWriter(@"C:\Users\Owner\Desktop\Data.csv");
                 file.WriteLine(sb.ToString());
                 file.Close();
 
-            String FileName = "Data.csv";
-            String FilePath = "C:/Users/Owner/Desktop/Data.csv";
-            System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
-            response.ClearContent();
-            response.Clear();
-            response.ContentType = "text/plain";
-            response.AddHeader("Content-Disposition", "attachment; filename=" + FileName + ";");
-            response.TransmitFile(FilePath);
-            response.Flush();
-            response.End();
+                String FileName = "Data.csv";
+                String FilePath = "C:/Users/Owner/Desktop/Data.csv";
+                System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+                response.ClearContent();
+                response.Clear();
+                response.ContentType = "text/plain";
+                response.AddHeader("Content-Disposition", "attachment; filename=" + FileName + ";");
+                response.TransmitFile(FilePath);
+                response.Flush();
+                response.End();
+                System.IO.File.Delete(@"C:\Users\Owner\Desktop\Data.csv");
 
-
+            }
 
         }
 

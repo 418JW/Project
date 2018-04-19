@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Practice
 {
-    public class employee
+    public class Employee
     {
     private string uname;
     private string fname;
@@ -14,13 +14,9 @@ namespace Practice
     private string position;
 
     
-        public employee(string un, string fn, string ln, string ad, string po)
+        public Employee()
         {
-            uname = un;
-            fname = fn;
-            lname = ln;
-            address = ad;
-            position = po;
+            
         }
         public string getun()
         {
@@ -41,6 +37,27 @@ namespace Practice
         public string getpo()
         {
             return position;
+        }
+
+        public string setun(string u)
+        {
+            return uname=u;
+        }
+        public string setfn(string f)
+        {
+            return fname = f;
+        }
+        public string setln(string l)
+        {
+            return lname = l;
+        }
+        public string setad(string a)
+        {
+            return address = a;
+        }
+        public string setpo(string p)
+        {
+            return position = p;
         }
 
 
