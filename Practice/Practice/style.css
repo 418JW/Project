@@ -1,2 +1,71 @@
-﻿body {
+﻿* {
+    box-sizing: border-box;
+}
+
+.row {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 10px
+}
+
+.row:after,
+.row:before {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+label{
+    width:100px;
+    padding-right:10px;
+}
+
+input, label{
+    float:left;
+    display:block;
+}
+
+.input{
+    padding:10px 0px;
+    margin: 0 auto;
+}
+
+.third{
+    display:block;
+    float:left;
+    width: 33%
+}
+
+.resultbox{
+    height: 300px;
+    width: 300px;
+}
+
+.imgbox{
+    float:none;
+    display:block;
+    margin: 0 auto;
+    height: 300px;
+    width: 275px;
+}
+.center{
+    text-align:center;
+}
+
+.bttn input[type='submit']{
+   display:block;
+   float: none;
+}
+
+
+.one{
+    background-color:red;
+}
+.two{
+    background-color:green;
+}
+
+.three{
+    background-color:blue;
 }
