@@ -24,24 +24,37 @@
             </div>
  
              <div class="row third two">
-                    <asp:Panel ID="panel" runat="server" Visible="False">
-                        <asp:Button ID="searchButton" runat="server"  Text="Search" OnClick="searchButton_Click" />
-                        <asp:Button ID="addButton" runat="server" OnClick="addButton_Click"  Text="Add" />
-                        <asp:Button ID="changeButton" runat="server" OnClick="changeButton_Click" Text="Change" />
+                    <asp:Panel ID="panel" runat="server" Visible="False" CssClass="row">
+                        <div class="row">
+                            <asp:Button ID="searchButton" runat="server"  Text="Search" OnClick="searchButton_Click" />
+                            <asp:Button ID="addButton" runat="server" OnClick="addButton_Click"  Text="Add" />
+                            <asp:Button ID="changeButton" runat="server" OnClick="changeButton_Click" Text="Change" />
+                        </div>
 
-                        
-                        <asp:Label ID="Label1" runat="server" Text="fname"></asp:Label>
-                        <asp:TextBox ID="filterSearchBox1" runat="server" ></asp:TextBox><br />
-                        
-                        <asp:Label ID="Label2" runat="server"  Text="lname"></asp:Label>
-                        <asp:TextBox ID="filterSearchBox2" runat="server" ></asp:TextBox><br />
+                        <div class ="row label">
+                            <div class="row input">
+                                <label><asp:Label ID="Label1" runat="server" Text="fname" ></asp:Label></label>
+                                <asp:TextBox ID="filterSearchBox1" runat="server" ></asp:TextBox><br />
 
-                        <asp:Label ID="Label3" runat="server"  Text="address"></asp:Label>
-                        <asp:TextBox ID="filterSearchBox3" runat="server" ></asp:TextBox> <br />
+                            </div>
 
-                        <asp:Label ID="Label4" runat="server"  Text="position"></asp:Label>
-                        <asp:TextBox ID="filterSearchBox4" runat="server" ></asp:TextBox><br />
+                            <div class="row input">
+                                <label><asp:Label ID="Label2" runat="server"  Text="lname" ></asp:Label></label>
+                                <asp:TextBox ID="filterSearchBox2" runat="server" ></asp:TextBox><br />
+                            </div>
+
+                            <div class="row input">
+                                <label><asp:Label ID="Label3" runat="server"  Text="address"></asp:Label></label>
+                                <asp:TextBox ID="filterSearchBox3" runat="server" ></asp:TextBox> <br />
+                            </div>
+
+                            <div class="row input">
+                                <label><asp:Label ID="Label4" runat="server"  Text="address"></asp:Label></label>
+                                <asp:TextBox ID="filterSearchBox4" runat="server" ></asp:TextBox><br />
+                            </div>
+                            
        
+                        </div>        
                     </asp:Panel>
              </div>
               

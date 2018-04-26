@@ -49,15 +49,6 @@ input, label{
     height: 300px;
     width: 275px;
 }
-.center{
-    text-align:center;
-}
-
-.bttn input[type='submit']{
-   display:block;
-   float: none;
-}
-
 
 .one{
     background-color:red;
