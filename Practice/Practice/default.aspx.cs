@@ -45,31 +45,17 @@ namespace Practice
             if (reader.Read())
             {
                 pos = reader["position"].ToString();
-                if (pos == "Admin")
-                {
-                    Session["AdminID"] = reader[0].ToString();
+
+                Session["ID"] = pos;
                     reader.Close();
                     Response.Redirect("Admin.aspx");
-                }
+                
                 
             }
-            reader.Close();
+           
                
            
-                dmc.CommandText = "SELECT * FROM staff WHERE username=@nusername AND password=@npassword";
-                dmc.Parameters.AddWithValue("@nusername", tb_username.Text);
-                dmc.Parameters.AddWithValue("@npassword", tb_password.Text);
-                reader = dmc.ExecuteReader();
-                if (reader.Read())
-                {
-                    p = reader["position"].ToString();
-                    if (p != "Admin")
-                    {
-                        Session["NonadminID"] = reader[0].ToString();
-                        reader.Close();
-                        Response.Redirect("Nonadmin.aspx");
-                    }
-                }
+                
                 else
                 {
                     reader.Close();

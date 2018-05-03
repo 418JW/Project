@@ -31,13 +31,13 @@ namespace Practice
         List<String> urls = new List<String>();
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(Session["AdminID"] == null)
+            if(Session["ID"] == null)
             {
                 Response.Redirect("default.aspx");
             }
 
-            
-
+            string id = Session["ID"] as String;
+            Session["SID"] = id;
         }
 
         
@@ -245,6 +245,7 @@ namespace Practice
         protected void searchButton_Click(object sender, EventArgs e)
         {
             resultsBox.Items.Clear();
+            
             emp.Clear();
             urls.Clear();
             String username;
@@ -261,7 +262,7 @@ namespace Practice
 
             con.Open();
 
-            if (Label1.Visible == true && Label2.Visible == false)
+            if (filterSearchBox1.Visible == true && filterSearchBox2.Visible == false)
             {
                 cmd.CommandText = "SELECT * FROM staff WHERE " + Label1.Text.ToString() + "=@label1";
                 cmd.Parameters.AddWithValue("@label1", filterSearchBox1.Text);
@@ -418,7 +419,12 @@ namespace Practice
 
                 con.Close();
 
-                panel.Visible = false;
+            filterSearchBox1.Text = "";
+            filterSearchBox2.Text = "";
+            filterSearchBox3.Text = "";
+            filterSearchBox4.Text = "";
+
+            panel.Visible = false;
             }
         
 
@@ -432,6 +438,8 @@ namespace Practice
              
 
             panel.Visible = true;
+            Label1.Visible = true;
+            filterSearchBox1.Visible = true;
 
             Label2.Visible = false;
             filterSearchBox2.Visible = false;
@@ -440,6 +448,14 @@ namespace Practice
             Label4.Visible = false;
             filterSearchBox4.Visible = false;
 
+            string s =Session["SID"] as String;
+
+            if (s != "Admin")
+            {
+                changeButton.Visible = false;
+                addButton.Visible = false;
+
+            }
 
         }
 
