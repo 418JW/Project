@@ -16,12 +16,45 @@
     clear: both;
 }
 
+body {
+    font-size: 1.25em;
+    background-color: #D2B8FF;
+}
+/*login properties*/
+.login {
+    top: 50%;
+    max-width: 200px;
+    display: block;
+    border-radius: 10px;
+    margin: 100px auto;
+    background-color: #FFF9C0;
+}
+
+.btn {
+    width:65px;
+    cursor:pointer;
+    display: block;
+    margin: 0 7%;
+    float: left;
+    background-color: #E8AC0F;
+    border: none;
+    padding: 10px;
+}
+
+.right{
+    float: right;
+}
+
+.firstbtn{
+    margin-left: 10px;
+}
+/*admin properties*/
 label{
     width:100px;
     padding-right:10px;
 }
 
-input, label{
+.input, label{
     float:left;
     display:block;
 }
@@ -31,13 +64,18 @@ input, label{
     margin: 0 auto;
 }
 
-.third{
-    display:block;
-    float:left;
-    width: 33%
+.third {
+    background-color: #FFEE8E;
+    display: block;
+    float: left;
+    width: 30%;
+    margin: 1%;
+    padding: 5px;
+    height: 500px;
 }
 
 .resultbox{
+    margin-top: 10px;
     height: 300px;
     width: 300px;
 }
@@ -49,6 +87,7 @@ input, label{
     height: 300px;
     width: 275px;
 }
+
 /*
 .one{
     background-color:red;
